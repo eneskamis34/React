@@ -3,10 +3,11 @@ import React, { Component } from "react";
 import CategoryList from './CategoryList';
 import ProductList from './ProductList';
 import {Container, Row, Col} from 'reactstrap';
+import alertify from "alertifyjs";
 
 export default class App extends Component {
 
-  state = {currentCategory:"", products:[]};
+  state = {currentCategory:"", products:[], cart:[]};
 
   componentDidMount(){
     this.getProducts();
@@ -28,6 +29,28 @@ export default class App extends Component {
     .then(data=>this.setState({products:data}))
   }
 
+  addToCard =(product) =>{
+    let newCart = this.state.cart;
+    var addedItem = newCart.find(c=>c.product.id === product.id);
+    if(addedItem)
+    {
+      addedItem.quantity+=1;
+    }
+    else
+    {
+      newCart.push({product:product,quantity:1});
+
+    }
+    this.setState({cart:newCart});
+    alertify.success(product.productName+" added to cart!",2);
+}
+
+  removeFromCart=(product)=>{
+    let newCart =this.state.cart.filter(c=>c.product.id !== product.id);
+    this.setState({cart:newCart});
+  }
+
+
 
   render() {
     let productInfo = {title:"Product List"}
@@ -35,9 +58,7 @@ export default class App extends Component {
     return (
       <div>
         <Container>
-          <Row>
-            <Navi/>
-          </Row>
+            <Navi removeFromCart={this.removeFromCart} cart={this.state.cart}/>
           <Row>
             <Col xs="3">
             <CategoryList currentCategory={this.state.currentCategory} changeCategory={this.changeCategory} info={categoryInfo}/>
@@ -45,6 +66,7 @@ export default class App extends Component {
             <Col xs="9">
             <ProductList 
             products = {this.state.products}
+            addToCard = {this.addToCard}
             currentCategory={this.state.currentCategory} changeCategory={this.changeCategory} info={productInfo}/>
             </Col>
           </Row>
