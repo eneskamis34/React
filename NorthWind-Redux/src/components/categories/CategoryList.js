@@ -2,26 +2,34 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as categoryActions from "../../redux/actions/categoryActions";
-import {ListGroup,ListGroupItem} from "reactstrap"
+import { ListGroup, ListGroupItem } from "reactstrap";
+import {Badge} from "reactstrap"
+
 class CategoryList extends Component {
 
-  componentDidMount(){
-    this.props.actions.getCategories()
+  componentDidMount() {
+    this.props.actions.getCategories();
+  }
+
+  selectCategory = (category) =>{
+      this.props.actions.changeCategory(category)
   }
 
   render() {
     return (
-      <div>
-        <h3>Categories</h3>
-        <ListGroup>
-          {this.props.categories.map(category =>(
-          <ListGroupItem key={category.id}>
-            {category.categoryName}
-          </ListGroupItem>
+      <div className="container">
+    <h3><Badge color="warning">Categories: </Badge></h3>      
+   <ListGroup>
+          {this.props.categories.map((category) => (
+            <ListGroupItem
+              active={category.id === this.props.currentCategory.id}
+              onClick={() => this.selectCategory(category)}
+              key={category.id}
+            >
+              {category.categoryName}
+            </ListGroupItem>
           ))}
- 
-          </ListGroup>
-        <h5>Seçili Kategori:{this.props.currentCategory.categoryName}</h5>
+        </ListGroup>
       </div>
     );
   }
@@ -30,7 +38,7 @@ class CategoryList extends Component {
 function mapStateToProps(state) {
   return {
     currentCategory: state.changeCategoryReducer,
-    categories:state.categoryListReducer
+    categories: state.categoryListReducer,
   };
 }
 
@@ -39,6 +47,10 @@ function mapDispatchToProps(dispatch) {
     actions: {
       getCategories: bindActionCreators(
         categoryActions.getCategories,
+        dispatch
+      ),
+      changeCategory: bindActionCreators(
+        categoryActions.changeCategory,
         dispatch
       ),
     },
