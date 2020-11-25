@@ -1,14 +1,8 @@
-import {combineReducers} from 'redux';
-import changeCategoryReducer from './changeCategoryReducer';
-import categoryListReducer from "./categoryListReducer"
-import productListReducer from "./productListReducer"
-import cartReducer from "./cartReducer"
+import {combineReducers} from "redux"
+import counterReducer from "./counterReducer"
 
-const rootReducer = combineReducers({
-    changeCategoryReducer,
-    categoryListReducer,
-    productListReducer,
-    cartReducer
+const reducers = combineReducers({
+    counterReducer
 });
 
-export default rootReducer;
+export default reducers;
