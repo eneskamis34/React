@@ -15,7 +15,8 @@ class ProductList extends Component {
 
   addToCart = (product) => {
     this.props.actions.addToCart({quantity:1,product})
-    alertify.success(product.productName + " "+"Successfully Added To Cart ")
+    
+    alertify.success(product.productName + " has been added");
   }
 
   render() {
