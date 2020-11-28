@@ -1,11 +1,24 @@
+import { prettyDOM } from '@testing-library/react';
 import * as actionTypes from './actionTypes';
-
 export function getProductsSuccess(products){
     return {
         type: actionTypes.GET_PRODUCTS_SUCCESS, // CHANGE_CATEGORY
         payload: products
     }
 }
+
+export function createProductSuccess(product){
+    return{
+        type:actionTypes.CREATE_PRODUCT_SUCCESS,payload:product
+    }
+}
+
+export function updateProductSuccess(product){
+    return{
+        type:actionTypes.UPDATE_PRODUCT_SUCCESS,payload:product
+    }
+}
+
 
 export function getProducts(categoryId){
     return function(dispatch){
