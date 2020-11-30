@@ -15,6 +15,7 @@ console.log(topla(1,2));
 console.log(topla("Enes",2));
 
 
+//rest parametre
 function davetEt(ilkDavetli:string, ...digerleri: string[]):string{
     return ilkDavetli + " " + digerleri.join(" ");
 }
